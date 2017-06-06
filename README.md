@@ -14,7 +14,7 @@
       v: "0.0.1a"
       By: Carlos Longarela"
 
-      Docs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant
+      Docs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant/wiki
 
 # EN DESARROLLO - AÚN NO LISTA PARA PRODUCCIÓN
 

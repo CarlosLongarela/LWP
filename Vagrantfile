@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     puts "  \033[0mv: 0.0.1a"
     puts "  \033[0mBy: Carlos Longarela"
     puts ""
-    puts "  \033[38;5;220mDocs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant"
+    puts "  \033[38;5;220mDocs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant/wiki"
     puts ""
     puts ""
     puts "\033[0m"
