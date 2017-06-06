@@ -1,0 +1,78 @@
+---
+aptget_update_cache_valid_time: 1800
+aptget_distupgrade: true
+
+aptget_install:
+  - mc
+  - nano
+  - sysv-rc-conf
+  - python-pip
+  - python-dev
+  - libmysqlclient-dev
+  - python-jmespath
+  - unzip
+  - git
+  - composer
+#  - ngrok-client
+
+php_max_input_vars: 1000
+php_memory_limit: 512M
+php_display_errors: Off
+php_post_max_size: 48M
+php_upload_max_filesize: 12M
+php_max_file_uploads: 20
+php_date_timezone: Europe/Madrid
+
+mariadb_databases:
+  - wordpress_wav
+
+mariadb_users:
+  wav_user:
+    name: "wav"
+    password: "wav"
+    priv: "wav.*:ALL"
+
+
+mariadb_root_password: wordpress
+mariadb_utiles_bd: true
+mariadb_cron_backup: false
+
+nginx_vhosts_root: "/home/webs"
+
+nginx_vhosts:
+  wav:
+    default_server: true # Sólo debe existir uno como default server
+    activado: true
+    archivo_conf: "wordpress.test.conf"
+    dominio: "wordpress.test"
+    sin_www:  true
+    ssl: false
+    cache_nginx: false
+    cms: "wordpress"
+    root: "{{ nginx_vhosts_root }}/wordpress.test/public"
+    index: "index.html index.htm index.php"
+
+nginx_vhosts_activados:
+  - wordpress.test.conf
+
+#wp_cli_webserver_user: www-data
+#wp_cli_webserver_group: www-data
+
+#wp_cli_packages: []
+
+wp_cli_wp_locale: "es_ES"
+wp_cli_wp_path: "{{ nginx_vhosts.wav.root }}"
+
+wp_cli_wp_db: "{{ mariadb_databases[0] }}"
+wp_cli_wp_db_user: "{{ mariadb_users.wav_user.name }}"
+wp_cli_wp_db_pass: "{{ mariadb_users.wav_user.password }}"
+wp_cli_wp_db_host: "localhost"
+wp_cli_wp_dp_prefix: "wpwav_"
+
+wp_cli_wp_url: "{{ nginx_vhosts.wav.dominio }}"
+wp_cli_wp_title: "WAV WordPress Site"
+wp_cli_wp_admin_user: "wav"
+wp_cli_wp_admin_password: "wav"
+wp_cli_wp_admin_email: "wav@wordpress.test"
+
+phpmyadmin_folder: "{{ wp_cli_wp_path }}/phpmyadmin"
