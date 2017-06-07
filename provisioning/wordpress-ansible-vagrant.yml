@@ -6,9 +6,9 @@
 
   roles:
     - CarlosLongarela.apt
-    - CarlosLongarela.ntp
-    - CarlosLongarela.mariadb
-    - CarlosLongarela.php7
+#    - CarlosLongarela.ntp
+#    - CarlosLongarela.mariadb
+#    - CarlosLongarela.php7
     - CarlosLongarela.nginx
-    - CarlosLongarela.wordpress
-    - CarlosLongarela.phpmyadmin
+#    - CarlosLongarela.wordpress
+#    - CarlosLongarela.phpmyadmin
