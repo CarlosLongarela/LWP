@@ -1,0 +1,20 @@
+---
+- name: Iniciar PHP-fpm
+  service:
+    name: php{{ php_version }}-fpm
+    state: started
+
+- name: Parar PHP-fpm
+  service:
+    name: php{{ php_version }}-fpm
+    state: stopped
+
+- name: Reiniciar PHP-fpm
+  service:
+    name: php{{ php_version }}-fpm
+    state: restarted
+
+- name: Recargar PHP-fpm
+  service:
+    name: php{{ php_version }}-fpm
+    state: reloaded

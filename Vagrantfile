@@ -32,7 +32,9 @@ Vagrant.configure("2") do |config|
     # Instalamos con $ vagrant plugin install vagrant-hostsupdater
     # Actualizamos con $ vagrant plugin update vagrant-hostsupdater
     config.vm.network :private_network, ip: "192.168.50.96"
-    config.vm.hostname = "wordpress.test"
+    config.vm.hostname = "wav.test"
+    config.hostsupdater.aliases = ["wordpress.test"]
+#    config.hostsupdater.aliases = ["wordpress.test", "wordpress2.test"]
 
     # Si queremos mapear algún puerto
     #config.vm.network "forwarded_port", guest: 80, host: 8383
@@ -40,17 +42,17 @@ Vagrant.configure("2") do |config|
 
 
     # Directorios compartidos
-    config.vm.synced_folder "./www/public", "/home/webs/wordpress.test/public",
+    config.vm.synced_folder "./www", "/home/webs",
         owner: "www-data",
         group: "www-data",
         mount_options: ["dmode=775,fmode=644"],
         create: true
 
-    config.vm.synced_folder "./www/logs", "/home/webs/wordpress.test/logs",
-        owner: "www-data",
-        group: "www-data",
-        mount_options: ["dmode=755,fmode=755"],
-        create: true
+#    config.vm.synced_folder "./www/logs", "/home/webs/wordpress.test/logs",
+#        owner: "www-data",
+#        group: "www-data",
+#        mount_options: ["dmode=755,fmode=755"],
+#        create: true
 
     # Configuración específica del Provider
     config.vm.provider "virtualbox" do |vb|
@@ -61,7 +63,7 @@ Vagrant.configure("2") do |config|
     # Ejecutamos Ansible desde la máquina virtual para provisionar el software
     config.vm.provision "ansible_local" do |ansible|
         ansible.playbook = "provisioning/wordpress-ansible-vagrant.yml"
-        ansible.galaxy_role_file = "provisioning/requirements.yml"
+#        ansible.galaxy_role_file = "provisioning/requirements.yml"
         ansible.provisioning_path = "/vagrant"
     end
 end

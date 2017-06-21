@@ -1,0 +1,146 @@
+---
+- name: Añadir repositorio oficial de Nginx.
+  apt_repository:
+    repo: 'ppa:nginx/stable'
+    state: present
+    update_cache: yes
+
+- name: Instalamos Nginx (versión fastcgi_cache_purge).
+  apt:
+    name: nginx-extras
+    state: present
+    update_cache: yes
+    cache_valid_time: "{{ aptget_update_cache_valid_time }}"
+
+
+- name: Eliminamos los snippets por defecto.
+  file:
+    path: "{{ nginx_conf_dir }}/snippets/{{ item }}"
+    state: absent
+  with_items:
+    - "fastcgi-php.conf"
+    - "snakeoil.conf"
+  notify:
+    - Reiniciar Nginx
+
+- name: Desactivar el sitio web por defecto.
+  file:
+    path: "{{ nginx_conf_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - "sites-enabled/default"
+    - "sites-available/default"
+  notify:
+    - Reiniciar Nginx
+
+- name: Nos aseguramos que Nginx está iniciado y activado al reiniciar.
+  service:
+    name: "{{ nginx_nombre_servicio }}"
+    state: started
+    enabled: yes
+
+- name: Instalamos el archivo de configuración general de Nginx.
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_conf_dir }}/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reiniciar Nginx
+
+- name: Configuración de seguridad de Nginx.
+  template:
+    src: security.conf.j2
+    dest: "{{ nginx_conf_dir }}/snippets/security.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reiniciar Nginx
+
+- name: Creación de Virtual Hosts.
+  template:
+    src: site.conf.j2
+    dest: "{{ nginx_conf_dir }}/sites-available/{{ item.archivo_conf }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ nginx_vhosts }}"
+  notify:
+    - Reiniciar Nginx
+
+- name: Creación de enlaces simbólicos para Virtual Hosts activados.
+  file:
+    src: "{{ nginx_conf_dir }}/sites-available/{{ item.archivo_conf }}"
+    dest: "{{ nginx_conf_dir }}/sites-enabled/{{ item.archivo_conf }}"
+    state: link
+  with_items:
+    - "{{ nginx_vhosts }}"
+  when:
+    - item.activado is defined
+    - item.activado == true
+  notify:
+    - Reiniciar Nginx
+
+# TODO: Comprobar idempotencia
+- name: Capturar archivos de Hosts Disponibles.
+  command: "ls -1 {{ nginx_conf_dir }}/sites-available"
+  register: archivos_conf_disponibles
+
+# TODO: Comprobar idempotencia
+- name: Capturar archivos de Hosts Activados.
+  command: "ls -1 {{ nginx_conf_dir }}/sites-enabled"
+  register: archivos_conf_activados
+
+# TODO: Comprobar idempotencia
+- name: Lista de Hosts Disponibles definidos.
+  command: "echo {{ item.archivo_conf | quote }}"
+  register: hosts_disponibles_definidos
+#  with_items: "{{ nginx_vhosts | json_query('*.archivo_conf') }}"
+  with_items:
+  - "{{ nginx_vhosts }}"
+
+- name: Eliminar archivos de Hosts excepto Disponibles.
+  file:
+    path: "{{ nginx_conf_dir }}/sites-available/{{ item }}"
+    state: absent
+  with_items: "{{ archivos_conf_disponibles.stdout_lines | difference( hosts_disponibles_definidos.results | map(attribute='stdout') | list ) }}"
+  notify:
+    - Reiniciar Nginx
+
+- name: Eliminar archivos de Hosts excepto Activados.
+  file:
+    path: "{{ nginx_conf_dir }}/sites-enabled/{{ item }}"
+    state: absent
+  with_items: "{{ archivos_conf_activados.stdout_lines | difference( nginx_vhosts_activados ) | list }}"
+  notify:
+    - Reiniciar Nginx
+
+- name: Comprobar que exista el raiz del sitio web.
+  file:
+    path: "{{ item.root }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ nginx_vhosts }}"
+  #with_items: "{{ nginx_vhosts | json_query('*.root') }}"
+
+- name: Comprobar que exista el raiz del sitio web (con .well-known).
+  file:
+    path: "{{ item.root }}/.well-known"
+    state: directory
+    mode: 0755
+#  with_items: "{{ nginx_vhosts | json_query('*.root') }}"
+  with_items:
+    - "{{ nginx_vhosts }}"
+
+- name: Comprobar que exista el directorio de logs.
+  file:
+    path: "{{ item.logs }}"
+    state: directory
+    mode: 0755
+#  with_items: "{{ nginx_vhosts | json_query('*.dominio') }}"
+  with_items:
+    - "{{ nginx_vhosts }}"

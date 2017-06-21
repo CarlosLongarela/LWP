@@ -5,10 +5,19 @@
   become: true
 
   roles:
-    - CarlosLongarela.apt
-#    - CarlosLongarela.ntp
-#    - CarlosLongarela.mariadb
-#    - CarlosLongarela.php7
-    - CarlosLongarela.nginx
-#    - CarlosLongarela.wordpress
-#    - CarlosLongarela.phpmyadmin
+#    - apt
+#    - ntp
+#    - mariadb
+#    - php7
+#    - nginx
+#    - phpmyadmin
+    - multi-wordpress
+
+#  post_tasks:
+#    - name: "Copiamos el archivo de inicio de WAV"
+
+#  post_tasks:
+#    - name: Eliminar webs
+#      file:
+#        path: /home/webs
+#        state: absent

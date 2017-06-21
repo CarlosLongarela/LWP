@@ -1,4 +1,5 @@
 ---
+## VARIABLES APT ##
 aptget_update_cache_valid_time: 1800
 aptget_distupgrade: true
 
@@ -15,6 +16,23 @@ aptget_install:
   - composer
 #  - ngrok-client
 
+## VARIABLES MARIADB ##
+mariadb_root_password: wav
+mariadb_utiles_bd: true
+mariadb_cron_backup: true
+mariadb_cron_optimizacion: true
+
+mariadb_databases:
+  - wordpress_wav
+  - wordpress_stable
+
+mariadb_users:
+  - name: "wav"
+    password: "wav"
+    priv: "*.*:ALL"
+
+
+## VARIABLES PHP ##
 php_max_input_vars: 1000
 php_memory_limit: 512M
 php_display_errors: Off
@@ -23,56 +41,84 @@ php_upload_max_filesize: 12M
 php_max_file_uploads: 20
 php_date_timezone: Europe/Madrid
 
-mariadb_databases:
-  - wordpress_wav
-
-mariadb_users:
-  wav_user:
-    name: "wav"
-    password: "wav"
-    priv: "wav.*:ALL"
-
-
-mariadb_root_password: wordpress
-mariadb_utiles_bd: true
-mariadb_cron_backup: false
-
+## VARIABLES NGINX ##
 nginx_vhosts_root: "/home/webs"
 
 nginx_vhosts:
-  wav:
+  - description: "Sitio web principal"
     default_server: true # Sólo debe existir uno como default server
     activado: true
-    archivo_conf: "wordpress.test.conf"
-    dominio: "wordpress.test"
+    archivo_conf: "wav.test.conf"
+    dominio: "wav.test"
     sin_www:  true
     ssl: false
     cache_nginx: false
-    cms: "wordpress"
-    root: "{{ nginx_vhosts_root }}/wordpress.test/public"
+    root: "{{ nginx_vhosts_root }}/wav.test/public"
+    logs: "{{ nginx_vhosts_root }}/wav.test/logs"
+    index: "index.html index.htm index.php"
+
+  - description: "WordPress rama Stable"
+    activado: true
+    archivo_conf: "stable.wordpress.test.conf"
+    dominio: "stable.wordpress.test"
+    sin_www:  true
+    ssl: false
+    cache_nginx: false
+    root: "{{ nginx_vhosts_root }}/stable.wordpress.test/public"
+    logs: "{{ nginx_vhosts_root }}/stable.wordpress.test/logs"
     index: "index.html index.htm index.php"
 
 nginx_vhosts_activados:
-  - wordpress.test.conf
+  - wav.test.conf
+  - stable.wordpress.test.conf
 
+## VARIABLES PHPMYADMIN ##
+phpmyadmin_folder: "{{ nginx_vhosts_root }}/wav.test/public/phpmyadmin"
+
+
+## VARIABLES WORDPRESS ##
 #wp_cli_webserver_user: www-data
 #wp_cli_webserver_group: www-data
 
 #wp_cli_packages: []
 
-wp_cli_wp_locale: "es_ES"
-wp_cli_wp_path: "{{ nginx_vhosts.wav.root }}"
+wp_cli_sites:
+  - description: "Sitio web de admin general"
+    locale: "es_ES"
+    path: "{{ nginx_vhosts[0].root }}"
+    version: "latest"
 
-wp_cli_wp_db: "{{ mariadb_databases[0] }}"
-wp_cli_wp_db_user: "{{ mariadb_users.wav_user.name }}"
-wp_cli_wp_db_pass: "{{ mariadb_users.wav_user.password }}"
-wp_cli_wp_db_host: "localhost"
-wp_cli_wp_dp_prefix: "wpwav_"
+    db: "{{ mariadb_databases[0] }}"
+    db_user: "{{ mariadb_users[0].name }}"
+    db_pass: "{{ mariadb_users[0].password }}"
+    db_host: "localhost"
+    dp_prefix: "wpwav_"
 
-wp_cli_wp_url: "{{ nginx_vhosts.wav.dominio }}"
-wp_cli_wp_title: "WAV WordPress Site"
-wp_cli_wp_admin_user: "wav"
-wp_cli_wp_admin_password: "wav"
-wp_cli_wp_admin_email: "wav@wordpress.test"
+    url: "{{ nginx_vhosts[0].dominio }}"
+    title: "WAV WordPress Control Panel Site"
+    admin_user: "wav"
+    admin_password: "wav"
+    admin_email: "wav@wordpress.test"
 
-phpmyadmin_folder: "{{ wp_cli_wp_path }}/phpmyadmin"
+    plugins:
+      - MainWP Dashboard
+      - BackUpWordPress
+
+  - description: "WordPress Stable"
+    locale: "es_ES"
+    path: "{{ nginx_vhosts[1].root }}"
+    version: "latest"
+
+    db: "{{ mariadb_databases[1] }}"
+    db_user: "{{ mariadb_users[0].name }}"
+    db_pass: "{{ mariadb_users[0].password }}"
+    db_host: "localhost"
+    dp_prefix: "wpwav_"
+
+    url: "{{ nginx_vhosts[1].dominio }}"
+    title: "WAV WordPress Stable Site"
+    admin_user: "wav"
+    admin_password: "wav"
+    admin_email: "wav@wordpress.test"
+
+    plugins: []

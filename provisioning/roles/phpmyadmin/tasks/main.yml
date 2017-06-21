@@ -1,0 +1,26 @@
+---
+- name: Creamos el directorio de PhpMyAdmin.
+  file:
+    path: "{{ phpmyadmin_folder }}"
+    owner: www-data
+    group: www-data
+    mode: 0755
+    state: directory
+  register: phpmyadmin_created
+
+- name: Instalamos PhpMyAdmin si se acaba de crear el directorio.
+  composer:
+    command: create-project
+    arguments: "phpmyadmin/phpmyadmin {{ phpmyadmin_folder }}"
+    working_dir: "{{ phpmyadmin_folder }}"
+    prefer_dist: yes
+  when: phpmyadmin_created|changed
+
+- name: Copiamos el archivo de configuración de PhpMyAdmin si se acaba de crear el directorio.
+  template:
+    src: config.sample.inc.php.j2
+    dest: "{{ phpmyadmin_folder }}/config.inc.php"
+    owner: www-data
+    group: www-data
+    mode: 0644
+  when: phpmyadmin_created|changed

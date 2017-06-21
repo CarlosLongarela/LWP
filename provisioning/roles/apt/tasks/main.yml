@@ -1,0 +1,8 @@
+---
+- name: Instalamos los programas necesearios para la administración.
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: "{{ aptget_update_cache_valid_time }}"
+  with_items: "{{ aptget_install }}"

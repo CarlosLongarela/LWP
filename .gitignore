@@ -1,5 +1,4 @@
 /.vagrant
 /www
 /*.log
-/provisioning/roles
 /*/*.retry

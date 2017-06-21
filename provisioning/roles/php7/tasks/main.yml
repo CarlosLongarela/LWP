@@ -1,0 +1,59 @@
+---
+- name: Añadir repositorio de PHP v{{ php_version }}
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+    update_cache: yes
+
+- name: Instalar PHP{{ php_version }}-fpm y requisitos.
+  apt:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - curl
+    - php{{ php_version }}-fpm
+    - php{{ php_version }}-cli
+
+- name: Instalar los módulos de PHP v{{ php_version }}
+  apt:
+    state: latest
+    name: "{{ item }}"
+  with_items: "{{ php_modules }}"
+
+- name: Plantilla de configuración de php.ini
+  template:
+    src: php.ini.j2
+    dest: "/etc/php/{{ php_version }}/fpm/php.ini"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Recargar PHP-fpm
+
+- name: Plantilla de configuración de PHP-fpm.
+  template:
+    src: php-fpm.conf.j2
+    dest: "/etc/php/{{ php_version }}/fpm/php-fpm.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Recargar PHP-fpm
+
+- name: Borrado del pool www por defecto de PHP-fpm
+  file:
+    path: "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+    state: absent
+
+- name: Plantilla de configuración de pool de PHP-fpm.
+  template:
+    src: pool.conf.j2
+    dest: "/etc/php/{{ php_version }}/fpm/pool.d/{{ php_fpm_pool_name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reiniciar PHP-fpm
+
+- name: Nos aseguramos que PHP-fpm está iniciado y activado al reiniciar.
+  service:
+    name: "{{ php_fpm_daemon }}"
+    state: started
+    enabled: yes

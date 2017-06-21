@@ -1,0 +1,106 @@
+---
+- name: Instalamos WP-CLI.
+  get_url:
+    url: "{{ wp_cli_url }}"
+    dest: "{{ wp_cli_path }}"
+    force: true
+    owner: "{{ wp_cli_webserver_user }}"
+    group: "{{ wp_cli_webserver_group }}"
+    mode: 0755
+
+
+- name: Instalamos los plugins de WP-CLI.
+  command: "{{ wp_cli_bin }} package install {{ item }}"
+  register: resultado
+  changed_when: "'Installing package' in resultado.stdout"
+  when: item is defined
+  with_items:
+    - "{{ wp_cli_packages }}"
+
+
+- name: Comprobamos si existe el archivo de WordPress readme.html
+  stat:
+    path: "{{ item.path }}/readme.html"
+  register: wp_readme
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+
+- name: Descargamos WordPress.
+  command: "{{ wp_cli_bin }} core download --locale='{{ item.locale }}' --path='{{ item.path }}' --version='{{ item.version }}'"
+  args:
+    creates: "{{ item.path }}/wp-settings.php"
+  become: yes
+  become_user: "{{ wp_cli_webserver_user }}"
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+
+- name: Configuramos WordPress.
+  command: "{{ wp_cli_bin }} core config --path='{{ item.path }}' --dbname='{{ item.db }}' --dbuser='{{ item.db_user }}' --dbpass='{{ item.db_pass }}' --dbhost='{{ item.db_host }}' --dbprefix='{{ item.dp_prefix }}'"
+  args:
+    creates: "{{ item.path }}/wp-config.php"
+  become: yes
+  become_user: "{{ wp_cli_webserver_user }}"
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+
+- name: Instalamos WordPress.
+  command: "{{ wp_cli_bin }} core install --path='{{ item.path }}' --url='{{ item.url }}' --title='{{ item.title }}' --admin_user='{{ item.admin_user }}' --admin_password='{{ item.admin_password }}' --admin_email='{{ item.admin_email }}' --skip-email"
+  args:
+    chdir: "{{ item.path }}"
+  register: wp_install
+  become: yes
+  become_user: "{{ wp_cli_webserver_user }}"
+#  when: wp_readme.results.stat.exists == True
+  with_items:
+    - "{{ wp_cli_sites }}"
+  changed_when: "'WordPress is already installed.' not in wp_install.stdout"
+
+
+#- name: Instalamos los plugins configurados de WordPress
+#  command: "{{ wp_cli_bin }} plugin install {{ item[1] }} --activate"
+#  args:
+#    chdir: "{{ item[0].path }}"
+#  become: yes
+#  become_user: "{{ wp_cli_webserver_user }}"
+##  when: wp_readme.results.stat.exists == True
+#  with_subelements:
+#    - "{{ wp_cli_sites }}"
+#    - plugins
+##  changed_when: "'WordPress is already installed.' not in wp_install.stdout"
+
+- name: Permisos de carpetas y archivos en WordPress (Folders 755, Files 644).
+  file:
+    path: "{{ item.path }}"
+    mode: u=rwX,g=rX,o=rX
+    owner: "{{ wp_cli_webserver_user }}"
+    group: "{{ wp_cli_webserver_group }}"
+    recurse: yes
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+- name: Eliminamos el plugin Akismet.
+  file:
+    path: "{{ item.path }}/wp-content/plugins/akismet"
+    state: absent
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+- name: Eliminamos el plugin Hello Dolly.
+  file:
+    path: "{{ item.path }}/wp-content/plugins/hello.php"
+    state: absent
+  with_items:
+    - "{{ wp_cli_sites }}"
+
+# Al ser entorno de desarrollo local no eliminamos licencia.txt ni license.txt
+# Si eliminamos readme.html para que el sistema sea consciente
+# de la finalización de instalación del sistema
+- name: Eliminamos los archivos innecesarios del raiz de WordPress.
+  file:
+    path: "{{ item.path }}/readme.html"
+    state: absent
+  with_items:
+    - "{{ wp_cli_sites }}"

@@ -1,0 +1,30 @@
+---
+- name: Fijamos la zona horaria correcta.
+  file:
+    src: "/usr/share/zoneinfo/{{ ntp_timezone }}"
+    dest: /etc/localtime
+    state: link
+    force: yes
+
+- name: Fijamos la zona horaria en el archivo etc/timezone
+  template:
+    src: timezone.j2
+    dest: /etc/timezone
+    force: yes
+
+- name: Instalamos NTP.
+  apt:
+    name: ntp
+    state: installed
+
+- name: Comprobamos que NTP se está ejecutando y activado
+  service:
+    name: "{{ ntp_daemon }}"
+    state: started
+    enabled: yes
+  when: ntp_enabled
+
+- name: Copiamos el archivo template ntp.conf.j2 a /etc/ntp.conf
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify: Reiniciar ntp
+  when: ntp_manage_config
