@@ -26,4 +26,4 @@ install:
 
 script:
   # Comprobamos la sintáxis del role/playbook.
-  - "ansible-playbook -i tests/inventory provisioning/wordpress-ansible-vagrant.yml --syntax-check"
+  - "ansible-playbook -i tests/inventory provisioning/lwp.yml --syntax-check"
