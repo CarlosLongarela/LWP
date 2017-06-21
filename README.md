@@ -36,14 +36,14 @@ LWP: Proyecto para el desarrollo de plugins y temas de WordPress con un entorno 
   - [ngrok](#ngrok)
 - [Instalación](#instalación)
 - [Uso Básico](#uso-básico)
-  - [Back Office](#back-office)
-  - [MySQL](#mysql)
+  - [Panel de control WordPress](#panel-de-control-wordpress)
+  - [MariaDB](#mariadb)
   - [PHPmyAdmin](#phpmyadmin)
   - [XDebug](#xdebug)
   - [Vagrant](#vagrant)
-- [Desarrollo](#development)
-  - [Módulos](#module)
-  - [Temas](#theme)
+- [Desarrollo](#desarrollo)
+  - [Módulos](#módulos)
+  - [Temas](#temas)
   - [Acceder a servidor local](#acceder-a-servidor-local)
 
 ## Resumen
@@ -151,6 +151,14 @@ Para el desarrollo tanto de plugins como de temas de WordPress, tenemos comparti
 
 - **Temas** en `./www/public/themes`
 - **Plugins** en `./www/public/plugins`
+
+### Módulos
+
+_(en construcción)_
+
+### Temas
+
+_(en construcción)_
 
 ### Acceder a servidor local
 
