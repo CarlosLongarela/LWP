@@ -21,11 +21,11 @@
 
       Docs:       https://github.com/CarlosLongarela/LWP/wiki
 
-# EN DESARROLLO - AÚN NO LISTA PARA PRODUCCIÓN
+# EN DESARROLLO - AÚN NO LISTO PARA PRODUCCIÓN
 
 # LWP (Lord of WordPress)
 
-LWP: Proyecto para el desarrollo de plugins y temas de WordPress con un entorno Ubuntu Xenial y Nginx, MariaDB y PHP 7.1 realizando el aprovisionamiento desde Ansible en la máquina virtual Vagrant (con VirtualBox).
+LWP: Proyecto para el desarrollo de plugins y temas de WordPress con un entorno Ubuntu Xenial y Nginx, MariaDB y PHP 7.1 realizando el aprovisionamiento desde Ansible en la máquina virtual Vagrant (con VirtualBox), además de incluir un panel de control construido con WordPress y desde el que controlar todos los WordPress externos por medio de MainWP Dashboard y plugins propios para un control total de todas las instancias internas y externas de WordPress.
 
 ## Tabla de Contenidos
 
