@@ -59,17 +59,20 @@
   changed_when: "'WordPress is already installed.' not in wp_install.stdout"
 
 
-#- name: Instalamos los plugins configurados de WordPress
-#  command: "{{ wp_cli_bin }} plugin install {{ item[1] }} --activate"
-#  args:
-#    chdir: "{{ item[0].path }}"
-#  become: yes
-#  become_user: "{{ wp_cli_webserver_user }}"
-##  when: wp_readme.results.stat.exists == True
-#  with_subelements:
-#    - "{{ wp_cli_sites }}"
-#    - plugins
-##  changed_when: "'WordPress is already installed.' not in wp_install.stdout"
+# TODO: Mirar si se puede activar sin los pasos desde admin
+- name: Instalamos los plugins configurados de WordPress
+  command: "{{ wp_cli_bin }} plugin install {{ item[1] }}"
+  args:
+    chdir: "{{ item[0].path }}"
+  register: wp_plugins
+  become: yes
+  become_user: "{{ wp_cli_webserver_user }}"
+#  when: wp_readme.results.stat.exists == True
+  with_subelements:
+    - "{{ wp_cli_sites }}"
+    - plugins
+  ignore_errors: yes
+#  changed_when: "'WordPress is already installed.' not in wp_plugins.stdout"
 
 - name: Permisos de carpetas y archivos en WordPress (Folders 755, Files 644).
   file:

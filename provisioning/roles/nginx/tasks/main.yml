@@ -33,12 +33,6 @@
   notify:
     - Reiniciar Nginx
 
-- name: Nos aseguramos que Nginx está iniciado y activado al reiniciar.
-  service:
-    name: "{{ nginx_nombre_servicio }}"
-    state: started
-    enabled: yes
-
 - name: Instalamos el archivo de configuración general de Nginx.
   template:
     src: nginx.conf.j2
@@ -144,3 +138,9 @@
 #  with_items: "{{ nginx_vhosts | json_query('*.dominio') }}"
   with_items:
     - "{{ nginx_vhosts }}"
+
+- name: Nos aseguramos que Nginx está iniciado y activado al reiniciar.
+  service:
+    name: "{{ nginx_nombre_servicio }}"
+    state: started
+    enabled: yes

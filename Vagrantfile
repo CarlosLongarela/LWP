@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
     puts ""
     puts "   \033[38;5;118mLord         \033[38;5;33mWord           \033[38;5;206mPress"
     puts ""
+    puts "   \033[4;36mLord of WordPress. One WordPress to rule them all.\033[0m"
+    puts ""
     puts "   \033[0mv: 0.0.1a"
     puts "   \033[0mBy: Carlos Longarela"
     puts ""
@@ -35,7 +37,7 @@ Vagrant.configure("2") do |config|
     # Actualizamos con $ vagrant plugin update vagrant-hostsupdater
     config.vm.network :private_network, ip: "192.168.50.96"
     config.vm.hostname = "lwp.test"
-    config.hostsupdater.aliases = ["stable.wordpress.test"]
+    config.hostsupdater.aliases = ["stable.wordpress.test", "nightly.wordpress.test"]
 #    config.hostsupdater.aliases = ["wordpress.test", "wordpress2.test"]
 
     # Si queremos mapear algún puerto

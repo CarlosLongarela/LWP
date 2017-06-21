@@ -17,18 +17,19 @@ aptget_install:
 #  - ngrok-client
 
 ## VARIABLES MARIADB ##
-mariadb_root_password: LWP
+mariadb_root_password: lwp
 mariadb_utiles_bd: true
 mariadb_cron_backup: true
 mariadb_cron_optimizacion: true
 
 mariadb_databases:
-  - wordpress_LWP
+  - wordpress_lwp
   - wordpress_stable
+  - wordpress_nightly
 
 mariadb_users:
-  - name: "LWP"
-    password: "LWP"
+  - name: "lwp"
+    password: "lwp"
     priv: "*.*:ALL"
 
 
@@ -45,7 +46,7 @@ php_date_timezone: Europe/Madrid
 nginx_vhosts_root: "/home/webs"
 
 nginx_vhosts:
-  - description: "Sitio web principal"
+  - description: "Sitio Web Principal"
     default_server: true # Sólo debe existir uno como default server
     activado: true
     archivo_conf: "lwp.test.conf"
@@ -57,7 +58,7 @@ nginx_vhosts:
     logs: "{{ nginx_vhosts_root }}/lwp.test/logs"
     index: "index.html index.htm index.php"
 
-  - description: "WordPress rama Stable"
+  - description: "WordPress Rama Stable"
     activado: true
     archivo_conf: "stable.wordpress.test.conf"
     dominio: "stable.wordpress.test"
@@ -68,9 +69,21 @@ nginx_vhosts:
     logs: "{{ nginx_vhosts_root }}/stable.wordpress.test/logs"
     index: "index.html index.htm index.php"
 
+  - description: "WordPress Rama Nightly"
+    activado: true
+    archivo_conf: "nightly.wordpress.test.conf"
+    dominio: "nightly.wordpress.test"
+    sin_www:  true
+    ssl: false
+    cache_nginx: false
+    root: "{{ nginx_vhosts_root }}/nightly.wordpress.test/public"
+    logs: "{{ nginx_vhosts_root }}/nightly.wordpress.test/logs"
+    index: "index.html index.htm index.php"
+
 nginx_vhosts_activados:
   - lwp.test.conf
   - stable.wordpress.test.conf
+  - nightly.wordpress.test.conf
 
 ## VARIABLES PHPMYADMIN ##
 phpmyadmin_folder: "{{ nginx_vhosts_root }}/lwp.test/public/phpmyadmin"
@@ -83,7 +96,7 @@ phpmyadmin_folder: "{{ nginx_vhosts_root }}/lwp.test/public/phpmyadmin"
 #wp_cli_packages: []
 
 wp_cli_sites:
-  - description: "Sitio web de admin general"
+  - description: "Sitio Web de Admin General"
     locale: "es_ES"
     path: "{{ nginx_vhosts[0].root }}"
     version: "latest"
@@ -101,8 +114,8 @@ wp_cli_sites:
     admin_email: "lwp@wordpress.test"
 
     plugins:
-      - MainWP Dashboard
-      - BackUpWordPress
+      - "MainWP Dashboard"
+      - "BackUpWordPress"
 
   - description: "WordPress Stable"
     locale: "es_ES"
@@ -117,6 +130,25 @@ wp_cli_sites:
 
     url: "{{ nginx_vhosts[1].dominio }}"
     title: "LWP WordPress Stable Site"
+    admin_user: "lwp"
+    admin_password: "lwp"
+    admin_email: "lwp@wordpress.test"
+
+    plugins: []
+
+  - description: "WordPress Nightly"
+    locale: "es_ES"
+    path: "{{ nginx_vhosts[2].root }}"
+    version: "latest"
+
+    db: "{{ mariadb_databases[2] }}"
+    db_user: "{{ mariadb_users[0].name }}"
+    db_pass: "{{ mariadb_users[0].password }}"
+    db_host: "localhost"
+    dp_prefix: "lwp_"
+
+    url: "{{ nginx_vhosts[2].dominio }}"
+    title: "LWP WordPress Nightly Site"
     admin_user: "lwp"
     admin_password: "lwp"
     admin_email: "lwp@wordpress.test"

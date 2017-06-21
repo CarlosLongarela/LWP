@@ -14,6 +14,8 @@
 
       Lord         Word           Press
 
+      Lord of WordPress. One WordPress to rule them all.
+
       v: "0.0.1a"
       By: Carlos Longarela"
 
@@ -93,12 +95,12 @@ $ vagrant up
 
 Se puede acceder al panel de control del WordPress la siguiente url:
 
-- [wordpress.test/wp-admin](http://wordpress.test/wp-admin)
+- [lwp.test/wp-admin](http://lwp.test/wp-admin)
 
 Para autenticarse en el panel de control utilizaremos las siguientes credenciales:
 
-- Usuario: lwp@wordpress.test
-- Clave: wordpress
+- Usuario: lwp
+- Clave: lwp
 
 ### MariaDB
 
@@ -106,17 +108,16 @@ Se puede acceder a la base de datos MariaDB con las siguientes credenciales _(en
 
 - Host: localhost
 - Puerto: 3366
-- DB: wordpress
-- Usuario: wordpress
-- Clave: wordpress
+- Usuario: root
+- Clave: lwp
 
 ### PHPmyAdmin
 
 Se puede acceder al PHPmyAdmin desde la siguiente url:
 
-- [wordpress.test/phpmyadmin](http://wordpress.test/phpmyadmin)
-- Usuario: wordpress
-- Contraseña: wordpress
+- [lwp.test/phpmyadmin](http://lwp.test/phpmyadmin)
+- Usuario: lwp
+- Contraseña: lwp
 
 ### XDebug
 
@@ -124,12 +125,12 @@ XDebug _(en construcción)_.
 
 Para configurar XDebug necesitamos:
 
-- fijar la ruta raíz del proyecto remoto a  `/home/webs/wordpress.test/wordpress`
+- fijar la ruta raíz del proyecto remoto a  `/home/webs/stable.wordpress.test/public`
 - fijar la ruta raíz del proyecto local al workspace actual
 
 Ahora nos conectamos a XDebug en el puerto 9000
 
-Nota: Las configuraciones de XDebug se pueden asignar en el php.ini del rol _CarlosLongarela.php7_.
+Nota: Las configuraciones de XDebug se pueden asignar en el php.ini del rol _php7_.
 
 ### Vagrant
 
