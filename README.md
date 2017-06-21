@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/CarlosLongarela/lwp.svg?branch=master)](https://travis-ci.org/CarlosLongarela/lwp)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/CarlosLongarela/lwp.svg)](http://isitmaintained.com/project/CarlosLongarela/lwp "Percentage of issues still open")
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CarlosLongarela/lwp.svg)](http://isitmaintained.com/project/CarlosLongarela/lwp "Average time to resolve an issue")
+[![Build Status](https://travis-ci.org/CarlosLongarela/LWP.svg?branch=master)](https://travis-ci.org/CarlosLongarela/LWP)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/CarlosLongarela/LWP.svg)](http://isitmaintained.com/project/CarlosLongarela/LWP "Percentage of issues still open")
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CarlosLongarela/LWP.svg)](http://isitmaintained.com/project/CarlosLongarela/LWP "Average time to resolve an issue")
 
 
 
@@ -19,7 +19,7 @@
       v: "0.0.1a"
       By: Carlos Longarela"
 
-      Docs:       https://github.com/CarlosLongarela/lwp/wiki
+      Docs:       https://github.com/CarlosLongarela/LWP/wiki
 
 # EN DESARROLLO - AÚN NO LISTA PARA PRODUCCIÓN
 

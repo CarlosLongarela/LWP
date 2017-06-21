@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     puts ""
     puts "   \033[0mLogo generated from: \033[38;5;33mhttp://patorjk.com/software/taag/#p=display&h=1&v=0&f=Speed&t=L%20W%20P"
     puts ""
-    puts "   \033[38;5;220mDocs:                https://github.com/CarlosLongarela/lwp/wiki"
+    puts "   \033[38;5;220mDocs:                https://github.com/CarlosLongarela/LWP/wiki"
     puts ""
     puts ""
     puts "\033[0m"
