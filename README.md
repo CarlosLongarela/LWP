@@ -1,26 +1,29 @@
-[![Build Status](https://travis-ci.org/CarlosLongarela/wordpress-ansible-vagrant.svg?branch=master)](https://travis-ci.org/CarlosLongarela/wordpress-ansible-vagrant)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/CarlosLongarela/wordpress-ansible-vagrant.svg)](http://isitmaintained.com/project/CarlosLongarela/wordpress-ansible-vagrant "Percentage of issues still open")
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CarlosLongarela/wordpress-ansible-vagrant.svg)](http://isitmaintained.com/project/CarlosLongarela/wordpress-ansible-vagrant "Average time to resolve an issue")
+[![Build Status](https://travis-ci.org/CarlosLongarela/lwp.svg?branch=master)](https://travis-ci.org/CarlosLongarela/lwp)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/CarlosLongarela/lwp.svg)](http://isitmaintained.com/project/CarlosLongarela/lwp "Percentage of issues still open")
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CarlosLongarela/lwp.svg)](http://isitmaintained.com/project/CarlosLongarela/lwp "Average time to resolve an issue")
 
 
-      ___       __   _______    ___    __
-      __ |     / /   ___    |   __ |  / /
-      __ | /| / /    __  /| |   __ | / /
-      __ |/ |/ /     _  ___ |   __ |/ /
-      ____/|__/      /_/  |_|   _____/
 
-      WordPress      Ansible    Vagrant
+      ______       ___       __   ________
+      ___  /       __ |     / /   ___  __ \
+      __  /        __ | /| / /    __  /_/ /
+      _  /___      __ |/ |/ /     _  ____/
+      /_____/      ____/|__/      /_/
+
+
+
+      Lord         Word           Press
 
       v: "0.0.1a"
       By: Carlos Longarela"
 
-      Docs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant/wiki
+      Docs:       https://github.com/CarlosLongarela/lwp/wiki
 
 # EN DESARROLLO - AÚN NO LISTA PARA PRODUCCIÓN
 
-# WAV (WordPress Ansible Vagrant)
+# LWP (Lord of WordPress)
 
-WAV: Proyecto para el desarrollo de plugins y temas de WordPress con un entorno Ubuntu Xenial y Nginx, MariaDB y PHP 7.1 realizando el aprovisionamiento desde Ansible en la máquina virtual Vagrant (con VirtualBox).
+LWP: Proyecto para el desarrollo de plugins y temas de WordPress con un entorno Ubuntu Xenial y Nginx, MariaDB y PHP 7.1 realizando el aprovisionamiento desde Ansible en la máquina virtual Vagrant (con VirtualBox).
 
 ## Tabla de Contenidos
 
@@ -94,7 +97,7 @@ Se puede acceder al panel de control del WordPress la siguiente url:
 
 Para autenticarse en el panel de control utilizaremos las siguientes credenciales:
 
-- Usuario: wav@wordpress.test
+- Usuario: lwp@wordpress.test
 - Clave: wordpress
 
 ### MariaDB

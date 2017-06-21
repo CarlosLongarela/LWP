@@ -5,16 +5,16 @@
   become: true
 
   roles:
-#    - apt
-#    - ntp
-#    - mariadb
-#    - php7
-#    - nginx
-#    - phpmyadmin
+    - apt
+    - ntp
+    - mariadb
+    - php7
+    - nginx
     - multi-wordpress
+    - phpmyadmin
 
 #  post_tasks:
-#    - name: "Copiamos el archivo de inicio de WAV"
+#    - name: "Copiamos el archivo de inicio de LWP"
 
 #  post_tasks:
 #    - name: Eliminar webs

@@ -17,18 +17,18 @@ aptget_install:
 #  - ngrok-client
 
 ## VARIABLES MARIADB ##
-mariadb_root_password: wav
+mariadb_root_password: LWP
 mariadb_utiles_bd: true
 mariadb_cron_backup: true
 mariadb_cron_optimizacion: true
 
 mariadb_databases:
-  - wordpress_wav
+  - wordpress_LWP
   - wordpress_stable
 
 mariadb_users:
-  - name: "wav"
-    password: "wav"
+  - name: "LWP"
+    password: "LWP"
     priv: "*.*:ALL"
 
 
@@ -48,13 +48,13 @@ nginx_vhosts:
   - description: "Sitio web principal"
     default_server: true # Sólo debe existir uno como default server
     activado: true
-    archivo_conf: "wav.test.conf"
-    dominio: "wav.test"
+    archivo_conf: "lwp.test.conf"
+    dominio: "lwp.test"
     sin_www:  true
     ssl: false
     cache_nginx: false
-    root: "{{ nginx_vhosts_root }}/wav.test/public"
-    logs: "{{ nginx_vhosts_root }}/wav.test/logs"
+    root: "{{ nginx_vhosts_root }}/lwp.test/public"
+    logs: "{{ nginx_vhosts_root }}/lwp.test/logs"
     index: "index.html index.htm index.php"
 
   - description: "WordPress rama Stable"
@@ -69,11 +69,11 @@ nginx_vhosts:
     index: "index.html index.htm index.php"
 
 nginx_vhosts_activados:
-  - wav.test.conf
+  - lwp.test.conf
   - stable.wordpress.test.conf
 
 ## VARIABLES PHPMYADMIN ##
-phpmyadmin_folder: "{{ nginx_vhosts_root }}/wav.test/public/phpmyadmin"
+phpmyadmin_folder: "{{ nginx_vhosts_root }}/lwp.test/public/phpmyadmin"
 
 
 ## VARIABLES WORDPRESS ##
@@ -92,13 +92,13 @@ wp_cli_sites:
     db_user: "{{ mariadb_users[0].name }}"
     db_pass: "{{ mariadb_users[0].password }}"
     db_host: "localhost"
-    dp_prefix: "wpwav_"
+    dp_prefix: "lwp_"
 
     url: "{{ nginx_vhosts[0].dominio }}"
-    title: "WAV WordPress Control Panel Site"
-    admin_user: "wav"
-    admin_password: "wav"
-    admin_email: "wav@wordpress.test"
+    title: "LWP WordPress Control Panel Site"
+    admin_user: "lwp"
+    admin_password: "lwp"
+    admin_email: "lwp@wordpress.test"
 
     plugins:
       - MainWP Dashboard
@@ -113,12 +113,12 @@ wp_cli_sites:
     db_user: "{{ mariadb_users[0].name }}"
     db_pass: "{{ mariadb_users[0].password }}"
     db_host: "localhost"
-    dp_prefix: "wpwav_"
+    dp_prefix: "lwp_"
 
     url: "{{ nginx_vhosts[1].dominio }}"
-    title: "WAV WordPress Stable Site"
-    admin_user: "wav"
-    admin_password: "wav"
-    admin_email: "wav@wordpress.test"
+    title: "LWP WordPress Stable Site"
+    admin_user: "lwp"
+    admin_password: "lwp"
+    admin_email: "lwp@wordpress.test"
 
     plugins: []

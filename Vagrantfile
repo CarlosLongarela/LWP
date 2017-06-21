@@ -8,18 +8,21 @@ Vagrant.configure("2") do |config|
 
     puts ""
     puts ""
-    puts "   \033[38;5;33m___       __   \033[38;5;206m_______    \033[38;5;118m___    __"
-    puts "   \033[38;5;33m__ |     / /   \033[38;5;206m___    |   \033[38;5;118m__ |  / /"
-    puts "   \033[38;5;33m__ | /| / /    \033[38;5;206m__  /| |   \033[38;5;118m__ | / / "
-    puts "   \033[38;5;33m__ |/ |/ /     \033[38;5;206m_  ___ |   \033[38;5;118m__ |/ /  "
-    puts "   \033[38;5;33m____/|__/      \033[38;5;206m/_/  |_|   \033[38;5;118m_____/   "
+    puts "   \033[38;5;206m______       \033[38;5;33m___       __   \033[38;5;118m________ "
+    puts "   \033[38;5;206m___  /       \033[38;5;33m__ |     / /   \033[38;5;118m___  __ \\"
+    puts "   \033[38;5;206m__  /        \033[38;5;33m__ | /| / /    \033[38;5;118m__  /_/ /"
+    puts "   \033[38;5;206m_  /___      \033[38;5;33m__ |/ |/ /     \033[38;5;118m_  ____/ "
+    puts "   \033[38;5;206m/_____/      \033[38;5;33m____/|__/      \033[38;5;118m/_/      "
     puts ""
-    puts "   \033[38;5;33mWordPress      \033[38;5;206mAnsible    \033[38;5;118mVagrant"
+    puts "   \033[38;5;206mLord          \033[38;5;33mWord          \033[38;5;118mPress"
     puts ""
     puts "  \033[0mv: 0.0.1a"
     puts "  \033[0mBy: Carlos Longarela"
     puts ""
-    puts "  \033[38;5;220mDocs:       https://github.com/CarlosLongarela/wordpress-ansible-vagrant/wiki"
+    puts "  \033[38;5;220mDocs:       https://github.com/CarlosLongarela/lwp/wiki"
+    puts ""
+    puts ""
+    puts "  \033[0mLogo generated from http://patorjk.com/software/taag/#p=display&h=1&v=0&f=Speed&t=L%20W%20P"
     puts ""
     puts ""
     puts "\033[0m"
@@ -32,8 +35,8 @@ Vagrant.configure("2") do |config|
     # Instalamos con $ vagrant plugin install vagrant-hostsupdater
     # Actualizamos con $ vagrant plugin update vagrant-hostsupdater
     config.vm.network :private_network, ip: "192.168.50.96"
-    config.vm.hostname = "wav.test"
-    config.hostsupdater.aliases = ["wordpress.test"]
+    config.vm.hostname = "lwp.test"
+    config.hostsupdater.aliases = ["stable.wordpress.test"]
 #    config.hostsupdater.aliases = ["wordpress.test", "wordpress2.test"]
 
     # Si queremos mapear algún puerto
@@ -62,7 +65,7 @@ Vagrant.configure("2") do |config|
 
     # Ejecutamos Ansible desde la máquina virtual para provisionar el software
     config.vm.provision "ansible_local" do |ansible|
-        ansible.playbook = "provisioning/wordpress-ansible-vagrant.yml"
+        ansible.playbook = "provisioning/lwp.yml"
 #        ansible.galaxy_role_file = "provisioning/requirements.yml"
         ansible.provisioning_path = "/vagrant"
     end
